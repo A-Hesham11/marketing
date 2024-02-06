@@ -1,200 +1,102 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { FaRegUserCircle } from "react-icons/fa";
-import { LuLayoutGrid } from "react-icons/lu";
-import { IoHomeOutline } from "react-icons/io5";
-import { MdCastForEducation } from "react-icons/md";
-import { LiaChalkboardTeacherSolid } from "react-icons/lia";
-import { FaUsersLine } from "react-icons/fa6";
-import { BiPhoneCall } from "react-icons/bi";
-import Logo from "../../assets/logo2.png";
-import "aos/dist/aos.css";
-import AOS from "aos";
-import { t } from "i18next";
-import { useIsRTL } from "../../hooks/useIsRTL";
-import { useTranslation } from "react-i18next";
-import { RiUserAddLine } from "react-icons/ri";
-import { MdOutlineWorkOutline } from "react-icons/md";
-import { PiUsersThreeBold } from "react-icons/pi";
+import Logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
+import Signdialog from "./Signdialog";
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import Registerdialog from "./Registerdialog";
+import Drawerdata from "./Drawerdata";
+import Drawer from "./Drawer";
+
+function classNames(...classes) {
+  return classes.join(" ");
+}
 
 const NavBar = () => {
-  const [navToggle, setNavToggle] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const [isFirstPage, setIsFirstPage] = useState(true);
-  const location = useLocation();
-  const locationPath = location.pathname;
-
-  const locationPathName =
-    locationPath === "/details"
-      ? "/details"
-      : locationPath === "/courseDetails"
-      ? "/courseDetails"
-      : "";
-
-  const pathName = locationPath !== locationPathName;
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, [navToggle]);
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-
-    const handleScroll = () => {
-      const currentPosition = window.scrollY;
-
-      const scrolled = currentPosition > 120;
-      setIsFirstPage(!scrolled);
-
-      setVisible(currentPosition < scrollPosition);
-
-      setScrollPosition(currentPosition <= 0 ? 0 : currentPosition);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrollPosition]);
-
-  const navLinks = [
-    { path: "/", label: t("Main") },
-    { path: "/courses", label: t("Courses") },
-    { path: "/trainers", label: t("Trainers") },
-    { path: "/JoinTrainers", label: t("Join our trainers") },
-    { path: "/recruitment", label: t("Recruitment") },
-    { path: "/aboutUs", label: t("About us") },
-    { path: "/callUs", label: t("Call us") },
+  const navigation = [
+    { name: "Home", href: "/", current: true },
+    { name: "Services", href: "#services", current: false },
+    { name: "About", href: "#about", current: false },
+    { name: "Portfolio", href: "#portfolio", current: false },
+    { name: "Contact", href: "#contact", current: false },
   ];
 
-  const isRTL = useIsRTL();
-
-  const { i18n } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    document.documentElement.dir = isRTL ? "rtl" : "ltr";
-    document.documentElement.lang = isRTL ? "ar" : "en";
-  }, [isRTL]);
+    const debounce = (fn) => {
+      let frame;
+      return (...params) => {
+        if (frame) {
+          cancelAnimationFrame(frame);
+        }
+        frame = requestAnimationFrame(() => {
+          fn(...params);
+        });
+      };
+    };
 
-  const toggleLang = () => {
-    i18n.changeLanguage(isRTL ? "en" : "ar");
-  };
+    const storeScroll = () => {
+      document.documentElement.dataset.scroll = window.scrollY.toString();
+    };
+
+    document.addEventListener("scroll", debounce(storeScroll), {
+      passive: true,
+    });
+
+    storeScroll();
+  }, []);
 
   return (
-    <nav
-      className={`relative z-50 py-2 ${
-        visible
-          ? `${isFirstPage && pathName ? "" : "bg-white shadow"}`
-          : "hidden"
-      }`}
-    >
-      <div className="container">
-        <div className="flex items-center justify-between">
-          <img
-            src={Logo}
-            alt="logo"
-            className={`${isFirstPage && pathName ? "w-36" : "w-24"}`}
-          />
-          <ul
-            className={`${
-              navToggle ? "grid" : "hidden lg:grid"
-            } grid-cols-2 lg:grid-cols-10 md:grid-cols-8 items-center gap-y-6 navbar ps-16`}
-            data-aos="zoom-in"
-          >
-            {navLinks.map((link) => (
-              <li
-                key={link.path}
-                className={`text-center nav_list ${
-                  link.path === "/JoinTrainers"
-                    ? "col-span-1 lg:col-span-2"
-                    : ""
-                }`}
-              >
-                {link.path === "/" ? (
-                  <IoHomeOutline
-                    size="28"
-                    className="w-full static lg:hidden"
-                  />
-                ) : link.path === "/courses" ? (
-                  <MdCastForEducation
-                    size="28"
-                    className="w-full static lg:hidden"
-                  />
-                ) : link.path === "/trainers" ? (
-                  <LiaChalkboardTeacherSolid
-                    size="28"
-                    className="w-full static lg:hidden"
-                  />
-                ) : link.path === "/JoinTrainers" ? (
-                  <RiUserAddLine
-                    size="28"
-                    className="w-full static lg:hidden"
-                  />
-                ) : link.path === "/recruitment" ? (
-                  <MdOutlineWorkOutline
-                    size="28"
-                    className="w-full static lg:hidden"
-                  />
-                ) : link.path === "/aboutUs" ? (
-                  <PiUsersThreeBold
-                    size="28"
-                    className="w-full static lg:hidden"
-                  />
-                ) : link.path === "/callUs" ? (
-                  <BiPhoneCall size="28" className="w-full static lg:hidden" />
-                ) : null}
-                <Link
-                  to={link.path}
-                  className={`font-semibold text-lg ${
-                    locationPath == link.path
-                      ? "border-b-2 border-mainBlack"
-                      : ""
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <li className="col-span-1 lg:col-span-2 text-center w-max m-auto flex gap-3 ps-1">
-              <Link
-                to="/signIn"
-                className="flex flex-col items-center gap-0 lg:gap-2 lg:flex-row nav_list"
-              >
-                <FaRegUserCircle className="w-full size-7 mb-1 lg:size-5 lg:mb-0" />
-                <span className="font-semibold">{t("Login")}</span>
-              </Link>
+    <nav className="navbar">
+      <div className="mx-auto max-w-7xl px-6 lg:py-4 lg:px-8">
+        <div className="relative flex h-20 items-center justify-between">
+          <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
+            {/* LOGO */}
 
-              <button
-                type="button"
-                className="animate_from_top hidden lg:block  animation_delay-3 text-white bg-mainOrange hover:bg-orange-300 transition-all duration-200 text-base w-8 h-8 py-[1px] px-[4px] rounded-md font-normal"
-                onClick={() => toggleLang()}
-              >
-                {isRTL ? "Ar" : "En"}
-              </button>
-            </li>
-          </ul>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              className="animate_from_top block lg:hidden animation_delay-3 text-white bg-mainOrange hover:bg-orange-300 transition-all duration-200 text-base w-8 h-8 py-[1px] px-[4px] rounded-md font-normal"
-              onClick={() => toggleLang()}
-            >
-              {isRTL ? "Ar" : "En"}
-            </button>
-            <button
-              className="static lg:hidden"
-              onClick={() => setNavToggle(!navToggle)}
-            >
-              <LuLayoutGrid
-                size="34"
-                className={`cursor-pointer duration-500 hover:text-mainOrange hover:-rotate-45 ${
-                  navToggle ? "-rotate-45 text-mainOrange" : ""
-                }`}
-              />
-            </button>
+            <div className="flex flex-shrink-0 items-center justify-center mt-2">
+              <img src={Logo} width={60} height={60} alt="logo" />
+            </div>
+
+            {/* LINKS */}
+
+            <div className="hidden lg:block ml-auto">
+              <div className="flex space-x-4">
+                {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`${item.current ? "text-black hover:opacity-100" : "hover:text-black hover:opacity-100"} px-3 py-4 text-lg font-normal opacity-75 space-links`}
+                    aria-current={item.href ? "page" : undefined}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
+
+          {/* SIGNIN DIALOG */}
+
+          <Signdialog />
+
+          {/* REGISTER DIALOG */}
+          <Registerdialog />
+
+          {/* DRAWER FOR MOBILE VIEW */}
+
+          {/* DRAWER ICON */}
+          <div className="block lg:hidden">
+            <Bars3Icon
+              className="block h-6 w-6"
+              aria-hidden="true"
+              onClick={() => setIsOpen(true)}
+            />
+          </div>
+
+          {/* DRAWER LINKS DATA */}
+          <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
+            <Drawerdata />
+          </Drawer>
         </div>
       </div>
     </nav>

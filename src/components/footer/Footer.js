@@ -1,273 +1,154 @@
 import React, { useState } from "react";
-import LogoFooter from "../../assets/logo_footer.png";
-import { FaTwitter } from "react-icons/fa";
-import { BiLogoTelegram } from "react-icons/bi";
-import { FaSnapchatGhost } from "react-icons/fa";
-import { FiInstagram } from "react-icons/fi";
-import { IoLogoTiktok, IoMagnet } from "react-icons/io5";
-import { FaHeart } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
-import Mada from "../../assets/mada.svg";
-import Visa from "../../assets/visa.svg";
-import Master from "../../assets/master.svg";
-import Applepay from "../../assets/applepay.svg";
-import Googlepay from "../../assets/googlepay.svg";
-import { t } from "i18next";
-import { TfiWorld } from "react-icons/tfi";
-import { MdOutlineAccessTime } from "react-icons/md";
-import { BsCalendarDate } from "react-icons/bs";
-import { useIsRTL } from "../../hooks/useIsRTL";
+import Logo_2 from "../../assets/logo2.png"
+import Facebook from "../../assets/footer/facebook.svg"
+import Instagram from "../../assets/footer/instagram.svg"
+import Mask from "../../assets/footer/mask.svg"
+import Telephone from "../../assets/footer/telephone.svg"
+import Email from "../../assets/footer/email.svg"
+import { FaBehanceSquare } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const location = useLocation();
-  const locationPath = location.pathname;
 
-  const locationPathName =
-    locationPath === "/details"
-      ? "/details"
-      : locationPath === "/courseDetails"
-      ? "/courseDetails"
-      : "";
+  const products = [
+    {
+      id: 1,
+      link: ["Home", "Popular", "About", "Contact"],
+    },
+    {
+      id: 2,
+      link: ["Help", "Resources", "Application", "Team"],
+    },
+  ];
 
-  const pathName = locationPath === locationPathName;
-
-  const [formData, setFormData] = useState({
-    email: "",
-  });
-
-  const isRTL = useIsRTL();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form data submitted:", formData);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Optional: Adds smooth scrolling effect
+    });
   };
 
   return (
-    <footer className="bg-mainBlack">
-      <div className="container">
-        <div className="mx-auto w-full max-w-screen-xl">
-          <div className="grid grid-cols-1 gap-8 px-4 py-6 lg:py-8 lg:grid-cols-5 md:grid-cols-2 text-center md:text-start">
-            <div className="col-span-1 lg:col-span-2">
-              <a href="/" className="mb-6 text-sm font-semibold text-white">
+    <div id="contact" className="bg-[#132A47] -mt-40">
+      <div className="mx-auto max-w-2xl pt-48 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="my-24 grid grid-cols-1 gap-y-10 gap-x-16 sm:grid-cols-2 lg:grid-cols-12 xl:gap-x-8">
+          {/* COLUMN-1 */}
+
+          <div className="col-span-4 md:col-span-12 lg:col-span-4">
+            <img
+              src={Logo_2}
+              className="mb-6"
+              width={100}
+              height={100}
+              alt="image"
+            />{" "}
+            <div className="flex gap-4">
+              <Link
+                to="https://www.facebook.com/Runagency/"
+                target="_blank"
+                className="footer-fb-icons"
+              >
                 <img
-                  src={LogoFooter}
-                  alt="logo"
-                  className="block mx-auto md:mx-0"
+                  src={Facebook}
+                  alt="facebook"
+                  width={15}
+                  height={20}
                 />
-              </a>
-              <ul className="text-white font-medium">
-                <li className="my-4 pe-0 lg:pe-7">
-                  {t(
-                    "An accredited training center licensed by the General Organization for Technical and Vocational Training We offer development training courses in the health field and the media field Which contributes to developing human resources to be qualified for the work environment."
-                  )}
-                </li>
-                <li className="mb-4">
-                  <ul className="flex items-center justify-center md:justify-start gap-4">
-                    <li className="bg-[#8088ff1a] duration-500 hover:bg-mainOrange rounded-full w-12 h-12 flex items-center justify-center">
-                      <a href="https://twitter.com/" target="Starfall">
-                        <FaTwitter size={22} />
-                      </a>
-                    </li>
-                    <li className="bg-[#8088ff1a] duration-500 hover:bg-mainOrange rounded-full w-12 h-12 flex items-center justify-center">
-                      <a href="https://web.telegram.org/a/" target="Starfall">
-                        <BiLogoTelegram size={22} />
-                      </a>
-                    </li>
-                    <li className="bg-[#8088ff1a] hover:bg-mainOrange rounded-full w-12 h-12 flex items-center justify-center">
-                      <a
-                        href="https://accounts.snapchat.com/accounts/v2/login"
-                        target="Starfall"
-                      >
-                        <FaSnapchatGhost size={22} />
-                      </a>
-                    </li>
-                    <li className="bg-[#8088ff1a] hover:bg-mainOrange rounded-full w-12 h-12 flex items-center justify-center">
-                      <a href="https://www.instagram.com/" target="Starfall">
-                        <FiInstagram size={22} />
-                      </a>
-                    </li>
-                    <li className="bg-[#8088ff1a] hover:bg-mainOrange rounded-full w-12 h-12 flex items-center justify-center">
-                      <a href="https://www.tiktok.com/" target="Starfall">
-                        <IoLogoTiktok size={22} />
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                {pathName && (
-                  <li className="mb-4">
-                    <ul className="flex items-center justify-center md:justify-start gap-4">
-                      <li>
-                        <img
-                          src={Mada}
-                          alt="Mada"
-                          className="w-14 h-8 bg-white border p-2 rounded-md"
-                        />
-                      </li>
-                      <li>
-                        <img
-                          src={Visa}
-                          alt="Visa"
-                          className="w-14 h-8 bg-white border p-2 rounded-md"
-                        />
-                      </li>
-                      <li>
-                        <img
-                          src={Master}
-                          alt="Master"
-                          className="w-14 h-8 bg-white border p-2 rounded-md"
-                        />
-                      </li>
-                      <li>
-                        <img
-                          src={Applepay}
-                          alt="Applepay"
-                          className="w-14 h-8 bg-white border p-2 rounded-md"
-                        />
-                      </li>
-                      <li>
-                        <img
-                          src={Googlepay}
-                          alt="Googlepay"
-                          className="w-14 h-8 bg-white border p-2 rounded-md"
-                        />
-                      </li>
-                    </ul>
+              </Link>
+              <Link
+                to="https://www.behance.net/runagencyy"
+                target="_blank"
+                className="footer-icons"
+              >
+                <FaBehanceSquare className="text-xl text-white" />
+              </Link>
+              <Link
+                to="https://www.instagram.com/runagency/?igshid=YmMyMTA2M2Y"
+                target="_blank"
+                className="footer-icons"
+              >
+                <img
+                  src={Instagram}
+                  alt="instagram"
+                  width={20}
+                  height={20}
+                />
+              </Link>
+            </div>
+          </div>
+
+          {/* CLOUMN-2/3 */}
+
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="group relative col-span-2 md:col-span-4 lg:col-span-2"
+            >
+              <ul>
+                {product.link.map((link, index) => (
+                  <li key={index} className="mb-5">
+                    <Link
+                      to="/"
+                      className="text-white text-sm font-normal mb-6 space-links"
+                      onClick={scrollToTop}
+                    >
+                      {link}
+                    </Link>
                   </li>
-                )}
-                <li className="mb-4 text-mainOrange flex items-center gap-3">
-                  <TfiWorld size={22} />
-                  <p>{t("Saudi Arabia / Riyadh / Palm neighborhood")}</p>
-                </li>
-                <li className="mb-4 text-mainOrange flex items-center gap-3">
-                  <BsCalendarDate size={22} />
-                  <p>{t("From Sunday to Thursday")}</p>
-                </li>
-                <li className="mb-4 text-mainOrange flex items-center gap-2">
-                  <MdOutlineAccessTime size={24} />
-                  <p>{t("From 9 am - 5 pm")}</p>
-                </li>
+                ))}
               </ul>
             </div>
-            <div className="col-span-1">
-              <h2 className="mb-6 font-semibold text-2xl text-white">
-                {t("Our services")}
-              </h2>
-              <ul className="text-white font-medium">
-                <li className="mb-4">
-                  <Link to="/" className="footer_list">
-                    {t("Courses in the health field")}
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link to="/" className="footer_list">
-                    {t("Courses in the field of media")}
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link to="/" className="footer_list">
-                    {t("Courses in general fields")}
-                  </Link>
-                </li>
-                <li className="mt-8 mb-4">
-                  <div className="form-group">
-                    <form onSubmit={handleSubmit}>
-                      <div className="flex justify-center md:justify-normal">
-                        <input
-                          className="border px-2 py-3 rounded-s-md placeholder:text-base"
-                          name="email"
-                          id="email"
-                          type="email"
-                          placeholder={t("E-mail")}
-                          value={formData.name}
-                          onChange={handleChange}
-                        />
-                        <button
-                          type="submit"
-                          className="bg-mainOrange text-white font-bold text-sm px-3 rounded-e-md"
-                        >
-                          {t("ٌRegistration")}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </li>
-              </ul>
+          ))}
+
+          {/* CLOUMN-4 */}
+
+          <div className="col-span-4 md:col-span-4 lg:col-span-4">
+            <div className="flex gap-2">
+              <img
+                src={Mask}
+                alt="mask-icon"
+                width={24}
+                height={24}
+              />
+              <h5 className="text-base font-normal text-offwhite">
+                Egypt, Mansoura, Al Bahar Street, Qasr El Nil Tower, Clinics
+                Entrance, 6th floor
+              </h5>
             </div>
-            <div className="col-span-1">
-              <h2 className="mb-6 font-semibold text-2xl text-white">
-                {t("Important links")}
-              </h2>
-              <ul className="text-white font-medium">
-                <li className="mb-4">
-                  <a href="/terms_Conditions" className="footer_list">
-                    {t("Terms and Conditions")}
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="/policies" className="footer_list">
-                    {t("Public policies")}
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="/technical_support" className="footer_list">
-                    {t("Technical support policy")}
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="/callUs" className="footer_list">
-                    {t("Complaints and suggestions")}
-                  </a>
-                </li>
-              </ul>
+            <div className="flex gap-2 mt-10">
+              <img
+                src={Telephone}
+                alt="telephone-icon"
+                width={24}
+                height={24}
+              />
+              <h5 className="text-base font-normal text-offwhite">
+                +201013276678
+              </h5>
             </div>
-            <div className="col-span-1">
-              <h2 className="mb-6 font-semibold text-2xl text-white">
-                {t("Website links")}
-              </h2>
-              <ul className="text-white font-medium">
-                <li className="mb-4">
-                  <a href="/callUs" className="footer_list">
-                    {t("Call us")}
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="/aboutUs" className="footer_list">
-                    {t("About us")}
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="/trainers" className="footer_list">
-                    {t("Trainers")}
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="/courses" className="footer_list">
-                    {t("Courses")}
-                  </a>
-                </li>
-              </ul>
+            <div className="flex gap-2 mt-10">
+              <img
+                src={Email}
+                alt="email-icon"
+                width={24}
+                height={24}
+              />
+              <Link
+                to={"http://www.Run-Agency.com"}
+                target="_blank"
+                className="text-base font-normal text-offwhite"
+              >
+                Run-Agency.com
+              </Link>
             </div>
           </div>
         </div>
+
+        <div className="py-10 lg:flex items-center justify-between border-t border-t-bordertop">
+
+        </div>
       </div>
-      <div className="px-4 py-6 flex gap-2 items-center justify-center flex-col sm:flex-row text-white border-t-[1px] border-mainGray w-full text-sm">
-        {t("All rights are save")} ©2024 | {t("This mold is made")}{" "}
-        <span>
-          <FaHeart size={20} className="fill-mainOrange" />
-        </span>{" "}
-        <p>
-          {t("by")} <span>Hisham</span>
-        </p>
-      </div>
-    </footer>
+    </div>
   );
 };
 
