@@ -57,7 +57,7 @@ const Portfolio = () => {
               Some of our amazing works on social media.
             </h4>
 
-            <div className="mt-10">
+            <div className="mt-10 mb-36 lg:mb-0 ">
               <Tabs tabs={tabsContent} />
             </div>
           </div>
